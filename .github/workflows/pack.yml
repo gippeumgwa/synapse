@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs: { }
   repository_dispatch:
-    types: [opened, deleted]
+    types: [make_index]
 
 jobs:
   pack:
