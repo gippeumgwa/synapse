@@ -86,7 +86,7 @@ fun V3Indexer.addIndexFiles(givenIndex: Any) {
     indexFiles.putAll(givenFiles)
 }
 
-private val defaultFFS: FileSource = FilebaseFileSource()
+private val defaultFFS: FileSource by lazy { FilebaseFileSource() }
 
 fun openShardingFilebase(prefixName: String = prefix): FileSource = defaultFFS
     .withNamePrefixed("indexed/$prefixName/")
@@ -193,12 +193,7 @@ object EmptyCryptorage : Cryptorage {
     override fun has(name: String): Boolean = false
 }
 
-val klaxon = Klaxon().converter(object : Converter {
-    // ByteArray <-> Base64 string
-    override fun canConvert(cls: Class<*>): Boolean = cls == ByteArray::class.java
-    override fun fromJson(jv: JsonValue): Any? = jv.string?.decodeBase64ToByteArray()
-    override fun toJson(value: Any): String = "\"${(value as ByteArray).encodeBase64ToString()}\""
-})
+val klaxon = Klaxon()
 
 fun parseJson(rdr: Reader): JsonObject = klaxon.parseJsonObject(rdr)
 fun parseJson(text: String): JsonObject = parseJson(text.reader())
