@@ -1,0 +1,21 @@
+name: Patched YTDL
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  push:
+    branches:
+      - master
+    workflow_dispatch:
+      inputs: { }
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    env:
+      SYNAPSE_CONFIG: ${{ secrets.SYNAPSE_CONFIG }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tasks
+        run: |
+          ./gradlew runPack
