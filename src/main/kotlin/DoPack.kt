@@ -23,9 +23,8 @@ fun main() = runBlocking<Unit> {
     val pool = Executors.newCachedThreadPool().asCoroutineDispatcher()
     val loaders = mutableListOf<Flow<Pair<Int, V3Indexer>>>()
     for (k in numbers) {
-        loaders += flow<Pair<Int, V3Indexer>> {
+        loaders += flow {
             delay(1L)
-            println("Loading shard number $k")
             emit(k to sharding.getShard(k))
         }.flowOn(pool)
     }
@@ -99,7 +98,7 @@ fun main() = runBlocking<Unit> {
             }
         }
     }
-    joinAll(*processJob.toTypedArray())
+    processJob.joinAll()
     pool.closeQuietly()
     exitProcess(0)
 }

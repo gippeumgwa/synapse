@@ -1,0 +1,17 @@
+name: do renew
+
+on:
+  workflow_dispatch:
+    inputs: { }
+  repository_dispatch:
+    types: [ renew ]
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    env:
+      SYNAPSE_CONFIG: ${{ secrets.SYNAPSE_CONFIG }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Renew
+        run: ./gradlew runRenew

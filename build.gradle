@@ -39,11 +39,17 @@ dependencies {
 
 task runPack(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = "BatchPackShardingToIndexerKt"
+    main = "DoPackKt"
     jvmArgs = ["-Xms1g", "-Xmx7g"]
 }
 task runRenew(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = "RenewShardingKt"
+    main = "RenewSharding"
+    jvmArgs = ["-Xms1g", "-Xmx7g"]
+}
+
+task runIndex(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "IndexSharding"
     jvmArgs = ["-Xms1g", "-Xmx7g"]
 }
