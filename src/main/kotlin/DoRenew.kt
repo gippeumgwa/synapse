@@ -10,7 +10,7 @@ object RenewSharding {
     @JvmStatic
     fun main(args: Array<String>) {
         openShardingFilebase().use { fs ->
-            doRenew(Sharding(password = pass), 0, fs)
+            doRenew(Sharding(password = pass), 0, fs, true)
         }
     }
 }
@@ -21,12 +21,12 @@ object IndexSharding {
         openShardingFilebase().use { fs ->
             val sharding = Sharding(fs, pass)
             val begin = maxOf((sharding.allShardingNumbers().maxOrNull() ?: 0) - 2, 0)
-            doRenew(sharding, begin, fs)
+            doRenew(sharding, begin, fs, false)
         }
     }
 }
 
-fun doRenew(sharding: Sharding, beginShard: Int, fs: FileSource) {
+fun doRenew(sharding: Sharding, beginShard: Int, fs: FileSource, rewrite: Boolean) {
     val threads: MutableList<Thread> = mutableListOf()
     for (shardNum in generateSequence(beginShard) { it + 1 }) {
         val begin = calculateFirstEntryNum(shardNum)
@@ -58,6 +58,8 @@ fun doRenew(sharding: Sharding, beginShard: Int, fs: FileSource) {
         it.join()
     }
 
-    //println("Writing sharding")
-    //sharding.saveSharding(fs)
+    if (rewrite) {
+        println("Writing sharding")
+        sharding.saveSharding(fs)
+    }
 }
