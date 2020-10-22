@@ -1,16 +1,18 @@
 @file:Suppress("UNCHECKED_CAST")
 
-import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonObject
-import com.beust.klaxon.JsonValue
 import com.beust.klaxon.Klaxon
 import com.google.common.io.ByteSink
 import com.google.common.io.ByteSource
 import com.google.common.io.ByteStreams
 import com.nao20010128nao.Cryptorage.*
-import com.nao20010128nao.CryptorageExtras.*
 import com.nao20010128nao.CryptorageExtras.indexer.V3Indexer
+import com.nao20010128nao.CryptorageExtras.sink
+import com.nao20010128nao.CryptorageExtras.source
+import com.nao20010128nao.CryptorageExtras.withNamePrefixed
 import java.io.*
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 import java.security.MessageDigest
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
@@ -18,8 +20,6 @@ import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import kotlin.concurrent.thread
 import kotlin.reflect.KProperty
-
-typealias StrArray = Array<String>
 
 const val FILE_LIST_TXT = "file_list_txt"
 const val SIZE_LIST_BIN = "size_list_bin"
@@ -73,10 +73,10 @@ fun calculateFirstEntryNum(num: Int): Int = num * SHARD_CHUNK + 1
 val indexerClass = V3Indexer::class.java
 val indexClass = indexerClass.declaredClasses.find { it.simpleName == "Index" }!!
 
-val readIndexMethod = indexerClass.getDeclaredMethod("readIndex", FileSource::class.java, String::class.java)
+val readIndexMethod: Method = indexerClass.getDeclaredMethod("readIndex", FileSource::class.java, String::class.java)
     .also { it.isAccessible = true }
-val finalIndexField = indexerClass.getDeclaredField("finalIndex").also { it.isAccessible = true }
-val indexFilesField = indexClass.getDeclaredField("files").also { it.isAccessible = true }
+val finalIndexField: Field = indexerClass.getDeclaredField("finalIndex").also { it.isAccessible = true }
+val indexFilesField: Field = indexClass.getDeclaredField("files").also { it.isAccessible = true }
 
 fun V3Indexer.readIndex(fs: FileSource, name: String): Any = readIndexMethod.invoke(this, fs, name)
 fun V3Indexer.addIndexFiles(givenIndex: Any) {
@@ -141,16 +141,6 @@ class MultiTextWriter(private val streams: Iterable<Writer>) : Writer() {
 
 fun sha256(): MessageDigest = MessageDigest.getInstance("sha-256")
 fun ByteArray.digest(md: MessageDigest = sha256()): ByteArray = md.digest(this)
-fun InputStream.digest(md: MessageDigest = sha256()): ByteArray = use {
-    var r: Int
-    val buf = ByteArray(8192)
-    while (true) {
-        r = read(buf)
-        if (r <= 0) break
-        md.update(buf, 0, r)
-    }
-    md.digest()
-}
 
 inline fun <T> probable(max: Int = 5, printError: Boolean = true, f: () -> T?): T? {
     var lastError: Throwable? = null

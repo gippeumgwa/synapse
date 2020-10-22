@@ -58,6 +58,6 @@ fun doRenew(sharding: Sharding, beginShard: Int, fs: FileSource) {
         it.join()
     }
 
-    println("Writing sharding")
-    sharding.saveSharding(fs)
+    //println("Writing sharding")
+    //sharding.saveSharding(fs)
 }
