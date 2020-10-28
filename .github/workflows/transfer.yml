@@ -1,0 +1,26 @@
+name: do transfer
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+    inputs: { }
+  repository_dispatch:
+    types: [ transfer ]
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: start dind
+        run: "docker run --name dind --rm -itd --privileged docker:dind"
+      - name: docker login
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker exec -i dind docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: run transfer
+        run: docker exec -it dind docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp -e PASSWORD=$( echo ${{ secrets.SYNAPSE_CONFIG }} | base64 -d | jq .SYNAPSE_PASSWORD ) --network host videos ${{ secrets.DOCKERHUB_USERNAME }}/underground:videos java -cp /opt/frt.jar frt.videos.special.RenonceObjectsKt --limit 10
+      - name: clean up
+        run: |
+          docker stop dind || true
+          docker kill dind || true
+          docker rm   dind || true
