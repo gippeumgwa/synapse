@@ -18,7 +18,7 @@ jobs:
       - name: docker login
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker exec -i dind docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: run transfer
-        run: docker exec -it dind docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp -e PASSWORD=$( echo ${{ secrets.SYNAPSE_CONFIG }} | base64 -d | jq -r .SYNAPSE_PASSWORD ) --network host videos ${{ secrets.DOCKERHUB_USERNAME }}/underground:videos java -cp /opt/frt.jar frt.videos.special.RenonceObjectsKt --limit 10
+        run: docker exec -i dind docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp -e PASSWORD=$( echo ${{ secrets.SYNAPSE_CONFIG }} | base64 -d | jq -r .SYNAPSE_PASSWORD ) --network host videos ${{ secrets.DOCKERHUB_USERNAME }}/underground:videos java -cp /opt/frt.jar frt.videos.special.RenonceObjectsKt --limit 10
       - name: clean up
         run: |
           docker stop dind || true
