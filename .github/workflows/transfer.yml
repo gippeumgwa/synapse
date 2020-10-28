@@ -9,7 +9,7 @@ on:
     types: [ transfer ]
 
 jobs:
-  pack:
+  transfer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
