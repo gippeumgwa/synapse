@@ -24,8 +24,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-    implementation "com.github.nao20010128nao:Cryptorage:b61a56f"
-    implementation("com.github.nao20010128nao:CryptorageExtras:dc4ed382") {
+    implementation "com.github.nao20010128nao:Cryptorage:51e7c1c8"
+    implementation("com.github.nao20010128nao:CryptorageExtras:060b5400") {
         exclude group: "com.github.nao20010128nao", module: "Cryptorage"
         exclude group: "com.google.guava", module: "guava"
     }
