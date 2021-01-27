@@ -28,5 +28,5 @@ jobs:
       run: chmod +x gradlew
       working-directory: gh
     - name: Build with Gradle
-      run: ./gradlew rAM rSP
+      run: ./gradlew rAM rSPA
       working-directory: gh
