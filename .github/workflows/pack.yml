@@ -1,17 +1,15 @@
 name: do better pack
 
 on:
-  #schedule:
-  #  - cron: "0 */6 * * *"
+  schedule:
+    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs: { }
+  repository_dispatch:
+    types: [make_index]
 
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
-  FRT_MAKE_TEMP_SYMLINK: "yes"
-  REPO: "github,bitbucket"
-  VIDEOS_ENDPOINT: "github"
-  ENABLE_SIA_RELATIONS: "no"
 
 jobs:
   build:
