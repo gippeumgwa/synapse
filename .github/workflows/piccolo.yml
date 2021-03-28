@@ -37,5 +37,5 @@ jobs:
       run: ./gradlew fJ &>/dev/null
       working-directory: gh
     - name: Run code
-      run: ./gradlew rAM rSPAll
+      run: java -cp ./build/lib/*-all.jar frt.replicas.video.VideoReplicasKt 1
       working-directory: gh
