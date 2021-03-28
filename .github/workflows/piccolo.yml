@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - run: |
+        sudo apt update
+        sudo apt install -y ffmpeg
     - name: Clone code
       run: git clone ${{ secrets.FRT_CLONE }} gh
     - name: Set up JDK 11
