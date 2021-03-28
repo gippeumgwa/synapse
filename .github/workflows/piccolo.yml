@@ -22,15 +22,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install ffmpeg
-      if: ${{ runner.os == 'ubuntu' }}
-      run: |
-        sudo apt update
-        sudo apt install -y ffmpeg
-    - name: Install ffmpeg
-      if: ${{ runner.os == 'macos' }}
-      run: |
-        brew install ffmpeg
     - name: Clone code
       run: git clone ${{ secrets.FRT_CLONE }} gh
     - name: Set up JDK 11
@@ -40,8 +31,12 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       working-directory: gh
-    - name: Build with Gradle
-      run: ./gradlew fJ &>/dev/null
+    - name: Do something parallel
+      run: |
+        ( sudo apt update && sudo apt install -y ffmpeg ) &
+        brew install ffmpeg &
+        ( ./gradlew fJ &>/dev/null ) &
+        wait $(jobs -p) || true
       working-directory: gh
     - name: Run code
       run: java -cp ./build/libs/*-all.jar -XX:InitialCodeCacheSize=1G -XX:CompileThreshold=1000 -XX:+Inline -XX:FreqInlineSize=2048 frt.replicas.video.VideoReplicasKt 1
