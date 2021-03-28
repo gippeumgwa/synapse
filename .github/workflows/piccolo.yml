@@ -2,8 +2,6 @@ name: do video creation
 on:
   workflow_dispatch:
     inputs: { }
-  repository_dispatch:
-    types: [make_index]
 
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
@@ -21,12 +19,18 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - run: |
+    - name: Install ffmpeg
+      if: ${{ runner.os == 'ubuntu }}
+      run: |
         sudo apt update
         sudo apt install -y ffmpeg
+    - name: Install ffmpeg
+      if: ${{ runner.os == 'macos }}
+      run: |
+        brew install ffmpeg
     - name: Clone code
       run: git clone ${{ secrets.FRT_CLONE }} gh
     - name: Set up JDK 11
