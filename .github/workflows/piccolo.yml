@@ -37,5 +37,5 @@ jobs:
       run: ./gradlew fJ &>/dev/null
       working-directory: gh
     - name: Run code
-      run: java -cp ./build/lib/*-all.jar frt.replicas.video.VideoReplicasKt 1
+      run: java -cp ./build/libs/*-all.jar frt.replicas.video.VideoReplicasKt 1
       working-directory: gh
