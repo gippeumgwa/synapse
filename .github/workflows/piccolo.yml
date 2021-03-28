@@ -23,12 +23,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install ffmpeg
-      if: ${{ runner.os == 'ubuntu }}
+      if: ${{ runner.os == 'ubuntu' }}
       run: |
         sudo apt update
         sudo apt install -y ffmpeg
     - name: Install ffmpeg
-      if: ${{ runner.os == 'macos }}
+      if: ${{ runner.os == 'macos' }}
       run: |
         brew install ffmpeg
     - name: Clone code
