@@ -39,5 +39,5 @@ jobs:
         wait $(jobs -p) || true
       working-directory: gh
     - name: Run code
-      run: java -cp ./build/libs/*-all.jar -XX:InitialCodeCacheSize=1G -XX:CompileThreshold=1000 -XX:+Inline -XX:FreqInlineSize=2048 frt.replicas.video.VideoReplicasKt 1
+      run: java -cp ./build/libs/*-all.jar -XX:InitialCodeCacheSize=1G -XX:ReservedCodeCacheSize=1052672K -XX:CompileThreshold=1000 -XX:+Inline -XX:FreqInlineSize=2048 frt.replicas.video.VideoReplicasKt 1
       working-directory: gh
