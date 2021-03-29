@@ -1,7 +1,11 @@
 name: do video creation
 on:
   workflow_dispatch:
-    inputs: { }
+    inputs:
+      number:
+        description: "number"
+        required: true
+        default: 1
 
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
@@ -39,5 +43,5 @@ jobs:
         wait $(jobs -p) || true
       working-directory: gh
     - name: Run code
-      run: java -cp ./build/libs/*-all.jar -XX:InitialCodeCacheSize=1G -XX:ReservedCodeCacheSize=1052672K -XX:CompileThreshold=1000 -XX:+Inline -XX:FreqInlineSize=2048 frt.replicas.video.VideoReplicasKt 1
+      run: java -cp ./build/libs/*-all.jar -XX:InitialCodeCacheSize=1G -XX:ReservedCodeCacheSize=1052672K -XX:CompileThreshold=1000 -XX:+Inline -XX:FreqInlineSize=2048 frt.replicas.video.VideoReplicasKt ${{ github.event.inputs.number }}
       working-directory: gh
