@@ -9,6 +9,13 @@ on:
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
   SYNAPSE_CONFIG: detect this
+  FRT_MAKE_TEMP_SYMLINK: "yes"
+  REPO: "github,bitbucket"
+  VIDEOS_ENDPOINT: "github"
+  ENABLE_SIA_RELATIONS: "no"
+  GIT_COPY_MODE: "actions"
+  FRT_GIT_PUSH_SPEED: "10.0"
+  DOCKER_REPLICA_USE_ACTIONS: "yes"
 
 jobs:
   build:
