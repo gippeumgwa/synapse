@@ -1,4 +1,4 @@
-name: do better pack
+name: do upload gd
 
 on:
   workflow_dispatch:
