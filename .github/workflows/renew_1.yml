@@ -1,4 +1,4 @@
-name: do renew
+name: do renew old
 
 on:
   workflow_dispatch:
