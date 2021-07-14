@@ -11,6 +11,7 @@ on:
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
   SYNAPSE_CONFIG: detect this
+  VIDEOS_ENDPOINT: github
 
 jobs:
   build:
