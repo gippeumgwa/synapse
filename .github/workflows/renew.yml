@@ -1,8 +1,6 @@
 name: do renew
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs: { }
   repository_dispatch:
