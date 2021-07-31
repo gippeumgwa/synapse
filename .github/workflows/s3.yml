@@ -1,0 +1,42 @@
+name: do upload s3
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: query
+
+env:
+  PASSWORD: ${{ secrets.FRT_DECIPHER }}
+  SYNAPSE_CONFIG: detect this
+  FRT_MAKE_TEMP_SYMLINK: "yes"
+  REPO: "github,bitbucket"
+  VIDEOS_ENDPOINT: "github"
+  ENABLE_SIA_RELATIONS: "no"
+  GIT_COPY_MODE: "actions"
+  FRT_GIT_PUSH_SPEED: "10.0"
+  DOCKER_REPLICA_USE_ACTIONS: "yes"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Clone code
+      run: git clone ${{ secrets.FRT_CLONE }} gh
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      working-directory: gh
+    - name: Build with Gradle
+      run: ./gradlew fJ &>/dev/null
+      working-directory: gh
+    - name: Build with Gradle
+      run: ./gradlew rAM
+      working-directory: gh
+    - name: Run code
+      run: java -cp ./build/libs/FileReadingTester-1.0-SNAPSHOT-all.jar frt.replicas.s3.S3UploadSatelliteKt ${{ github.event.inputs.query }}
+      working-directory: gh
