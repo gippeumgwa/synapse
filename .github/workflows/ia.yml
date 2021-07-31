@@ -1,4 +1,4 @@
-name: do upload s3
+name: do upload ia
 
 on:
   workflow_dispatch:
@@ -38,5 +38,5 @@ jobs:
       run: ./gradlew rAM
       working-directory: gh
     - name: Run code
-      run: java -cp ./build/libs/FileReadingTester-1.0-SNAPSHOT-all.jar frt.replicas.s3.S3UploadSatelliteKt ${{ github.event.inputs.query }}
+      run: java -cp ./build/libs/FileReadingTester-1.0-SNAPSHOT-all.jar frt.replicas.ia.InternetArchiveUploadSatelliteKt ${{ github.event.inputs.query }}
       working-directory: gh
