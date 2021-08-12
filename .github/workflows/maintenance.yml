@@ -8,6 +8,7 @@ env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
   SYNAPSE_CONFIG: detect this
   VIDEOS_ENDPOINT: github
+  REPO: github,bitbucket
 
 jobs:
   build:
