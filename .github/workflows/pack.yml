@@ -13,6 +13,7 @@ env:
   SYNAPSE_CONFIG: detect this
   VIDEOS_ENDPOINT: github
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
