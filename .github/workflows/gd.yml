@@ -6,6 +6,7 @@ on:
       query:
         description: query
 
+
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
   SYNAPSE_CONFIG: detect this
