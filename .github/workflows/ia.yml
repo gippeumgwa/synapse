@@ -17,6 +17,7 @@ env:
   FRT_GIT_PUSH_SPEED: "10.0"
   DOCKER_REPLICA_USE_ACTIONS: "yes"
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
