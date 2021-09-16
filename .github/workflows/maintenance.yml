@@ -10,6 +10,7 @@ env:
   VIDEOS_ENDPOINT: github
   REPO: github,bitbucket
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
