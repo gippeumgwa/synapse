@@ -5,7 +5,8 @@ on:
       number:
         description: "number"
         required: true
-        default: 1
+        default: "1"
+
 
 env:
   PASSWORD: ${{ secrets.FRT_DECIPHER }}
