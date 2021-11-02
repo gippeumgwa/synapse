@@ -25,6 +25,24 @@ jobs:
     - uses: actions/checkout@v2
     - name: Clone code
       run: git clone ${{ secrets.FRT_CLONE }} gh
+    - name: Set up Tailscale
+      continue-on-error: true
+      uses: tailscale/github-action@main
+      with:
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+        version: "1.16.1"
+    - name: Add SSH key
+      continue-on-error: true
+      env:
+        SSH_KEY: ${{ secrets.SSH_KEY }}
+        MACHINE: misc2
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan "$(tailscale ip -6 $MACHINE)" >> ~/.ssh/known_hosts
+        printf "%s" "$SSH_KEY" > ~/.ssh/key
+        chmod 600 ~/.ssh/key
+        ssh -fND 1720 lesmi@"[$(tailscale ip -6 $MACHINE)]"
+        echo "IA_REPLICA_SOCKS5_PROXY=localhost:1720" >> $GITHUB_ENV
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
