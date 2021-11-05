@@ -35,7 +35,7 @@ jobs:
       continue-on-error: true
       env:
         SSH_KEY: ${{ secrets.SSH_KEY }}
-        MACHINE: misc1
+        MACHINE: misc2
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan "$(tailscale ip -6 $MACHINE)" >> ~/.ssh/known_hosts
